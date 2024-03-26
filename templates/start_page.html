@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=960">
+    <title>Start page</title>
+</head>
+<body>
+  <header>Chameleon reader</header>
+  <div class="row">
+  <div class="column left">
+      <form>
+        <div class="form-group">
+            <p for="photo">Выберите файл для просмотра</p>
+            <input type="file" class="form-control-file" id="photo" name="file">
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+      </form>
+      <form>
+          <p> Размер шрифта: </p>
+          <input type="number" min="12" max="36" placeholder="16" value="16">
+          <p> Семья шрифта: </p>
+          <select>
+              <option> Arial </option>
+              <option> Comic Sans</option>
+          </select><br>
+          <button type="submit" class="btn btn-primary">Отправить</button>
+      </form>
+  </div>
+  <div class="column middle">
+      <article>
+          {{text}}
+      </article>
+      <article>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et sem non nisl mollis ultricies in rutrum velit. Sed dictum dui diam, nec iaculis massa gravida eu. Nunc lacus massa, volutpat in metus a, interdum mollis dolor. Mauris sodales ipsum vitae ante pharetra pretium. Sed a odio porttitor mauris iaculis porta. Pellentesque id tellus non mauris ultricies tincidunt. Nam in metus ac lacus laoreet pulvinar quis ut erat. Pellentesque ut augue nec diam varius faucibus vel sit amet lorem. Vivamus a molestie lorem.
+
+Nam in finibus lorem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed quis volutpat orci. Nunc tempor nulla at ex egestas faucibus. Suspendisse id nisl finibus, luctus dui vitae, sodales orci. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus id quam imperdiet, placerat est sodales, pretium nisi. Aliquam molestie nec nisi et fringilla.
+
+Vivamus eget urna non neque posuere viverra nec et mi. Curabitur tincidunt urna vel risus congue, ut euismod elit maximus. Nam elementum, orci vel suscipit tristique, leo libero molestie justo, tempus volutpat diam risus eget lorem. In viverra, mauris vel mollis bibendum, sapien augue imperdiet tellus, a tempus magna lorem ac nisi. Praesent dictum, nulla sit amet viverra lobortis, arcu eros iaculis felis, non iaculis elit neque id leo. Suspendisse id venenatis magna. Proin pretium finibus malesuada. Aliquam erat volutpat. Sed maximus turpis tellus, quis congue purus iaculis eu. Nulla facilisi. Quisque id porttitor turpis.
+
+Duis quis felis libero. Aliquam imperdiet scelerisque eros, quis sagittis neque tempus dignissim. Ut nibh orci, interdum sed ornare at, feugiat quis nisi. Pellentesque quam nulla, fringilla vitae tellus tincidunt, consequat interdum dui. Mauris at fermentum felis. Morbi mauris tellus, tincidunt id lacus aliquam, ornare suscipit felis. Vestibulum elit velit, tempus ut egestas at, venenatis lacinia leo. Proin imperdiet, massa ac feugiat congue, risus sem imperdiet augue, convallis ultrices tortor odio sed neque. Suspendisse at velit arcu. Morbi mollis sed quam vel pulvinar. Phasellus id pulvinar orci. Proin at leo ut dui interdum varius. Donec quis finibus ex, sit amet suscipit tortor.
+
+Fusce luctus lacinia ligula in vulputate. Praesent sed metus cursus, cursus ante a, ornare ante. Nam gravida odio arcu, ac consectetur odio aliquam nec. Suspendisse eu blandit tellus. Quisque tincidunt mi sapien, at sollicitudin lectus luctus eu. Aenean nec turpis ultrices, vehicula leo sit amet, mattis mauris. Curabitur hendrerit tristique tortor eu convallis. Proin cursus neque ut ex venenatis, non porttitor erat egestas. Aenean vitae lectus lobortis, laoreet nulla ut, dictum arcu. Aliquam placerat nec magna non dignissim. Aliquam erat volutpat. Sed et porta enim, a rhoncus lectus. Integer a porta arcu, vel sodales orci.
+      </article>
+  </div>
+  <div class="column right">
+      <div class="bank">
+      <ul>
+          <li> the first </li>
+          <li> the second </li>
+      </ul>
+      </div>
+  </div>
+  </div>
+  <footer>Footer</footer>
+</body>
+</html>
+
+<style>
+
+.column {
+  float: left;
+  height: 500px;
+}
+
+.left, .right {
+  width: 23%;
+  padding: 15px;
+  background-color: #ab755d;
+}
+
+.middle {
+  width: 54%;
+  background-color: #fbc27f;
+  padding: 50px;
+  text-align: justify;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #543028;
+}
+
+footer, header {
+    background-color: #543028;
+    padding: 15px 10px;
+    margin: 0px;
+    color: rgb(219, 173, 120);
+}
+
+header {
+    font-size: 36px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+header {
+    text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+form button, select, input:file, input:number {
+    display: block;
+}
+
+form .form-group input:file {
+    background-color: rgb(219, 173, 120);
+}
+
+form input, select {
+    background-color: rgb(219, 173, 120);
+}
+
+form button, .form-control-file {
+    padding: 3px;
+    margin: 6px 2px;
+    width: 126px;
+    color: rgb(219, 173, 120);
+    background-color: #543028;
+    font-size: 16px;
+}
+
+.form-control-file {
+    width: 250px;
+}
+
+form p {
+    margin: 6px 4px;
+}
+
+form, .bank {
+    margin: 7px 0px;
+    border: 2px dashed #543028;
+    padding: 10px;
+    font-size: 17px;
+}
+
+</style>
