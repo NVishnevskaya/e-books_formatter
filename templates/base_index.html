@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=960">
+    <title>Start page</title>
+</head>
+<body>
+  <header>Chameleon reader</header>
+  <div class="row">
+  <div class="column left">
+      <div class="form-group">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="file">Выберите файл для загрузки:</label>
+            <input type="file" class="form-control-file" id="file" name="file" accept=".pdf, .fb2, .epub, .txt">
+            <input type="submit" value="Загрузить">
+        </form>
+      </div>
+      <form>
+          <p> Размер шрифта: </p>
+          <input type="number" min="12" max="36" placeholder="16" value="16">
+          <p> Семейство шрифта: </p>
+          <select>
+              <option> Arial </option>
+              <option> Comic Sans</option>
+          </select><br>
+          <button type="submit" class="btn btn-primary">Отправить</button>
+      </form>
+  </div>
+  <div class="column middle">
+      <div class="main_content">
+        {% block content %}{% endblock %}
+      </div>
+  </div>
+  <div class="column right">
+      <div class="bank">
+      <ul>
+          <li> the first </li>
+          <li> the second </li>
+      </ul>
+      </div>
+  </div>
+  </div>
+  <footer>Footer</footer>
+</body>
+</html>
+
+<style>
+
+.column {
+  float: left;
+  height: 500px;
+}
+
+.left, .right {
+  width: 23%;
+  padding: 15px;
+  background-color: #ab755d;
+}
+
+.middle {
+  width: 54%;
+  background-color: #fbc27f;
+  padding: 50px;
+  text-align: justify;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #543028;
+}
+
+footer, header {
+    background-color: #543028;
+    padding: 15px 10px;
+    margin: 0px;
+    color: rgb(219, 173, 120);
+}
+
+header {
+    font-size: 36px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+header {
+    text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+form button, select, input:file, input:number {
+    display: block;
+}
+
+form .form-group input:file {
+    background-color: rgb(219, 173, 120);
+}
+
+form input, select {
+    background-color: rgb(219, 173, 120);
+}
+
+form button, .form-control-file {
+    padding: 3px;
+    margin: 6px 2px;
+    width: 126px;
+    color: rgb(219, 173, 120);
+    background-color: #543028;
+    font-size: 16px;
+}
+
+.form-control-file {
+    width: 250px;
+}
+
+form p {
+    margin: 6px 4px;
+}
+
+form, .bank {
+    margin: 7px 0px;
+    border: 2px dashed #543028;
+    padding: 10px;
+    font-size: 17px;
+}
+
+</style>
