@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
+import epub_render
+import txt_render
 import os
 
 ALLOWED_EXTENSIONS = {'epub', 'fb2', 'pdf', 'txt'}
@@ -16,17 +18,6 @@ def get_file_extension(filename):
     return filename.rsplit('.', 1)[1].lower()
 
 
-def insert_content_to_file(filename, dest_filename=DESTINATION_FILE_FOR_CONTENT):
-    lines = ['{% extends "base_index.html" %}',
-             '{% block content %}']
-    with open(filename, mode="r", encoding="UTF-8") as file:
-        lines.append(f"<p>{str(file.read()).strip()}</p>")
-    lines.append('<p> Hello, world! </p>')
-    lines.append('{% endblock %}')
-    with open(f"templates/{dest_filename}", mode="w", encoding="UTF-8") as source_file:
-        source_file.write("\n".join(lines))
-
-
 def allowed_file(filename):
     return '.' in filename and get_file_extension(filename) in ALLOWED_EXTENSIONS
 
@@ -35,6 +26,9 @@ def allowed_file(filename):
 def show_main_page():
     return render_template('index.html', text="")
 
+@app.route('/new_style', methods=["POST", "GET"])
+def set_new_style():
+    return redirect(url_for('show_index_with_content'))
 
 @app.route('/upload', methods=['GET', 'POST'])
 def handle_file_upload():
@@ -48,7 +42,11 @@ def handle_file_upload():
             filename = uploaded_file.filename
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             uploaded_file.save(file_path)
-            insert_content_to_file(file_path)
+            ext = get_file_extension(file_path)
+            if ext == "epub":
+                epub_render.render_epub_to_html(file_path)
+            elif ext == "txt":
+                txt_render.render_txt_file(file_path)
             # необходимо форматировать полученный файл в html, унаследовав от base_index.html
             return redirect(url_for('show_index_with_content'))
         return redirect(url_for('show_main_page'))
