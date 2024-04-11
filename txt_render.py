@@ -6,6 +6,8 @@ def get_txt_text(filename):
     with open(filename, mode="r", encoding="UTF-8") as file:
         text = file.readlines()
     text = list(map(lambda x: f"<p>{x.strip()}</p>", text))
+    text.append("\n<style>")
+    text.append("</style>\n")
     return "\n".join(text)
 
 

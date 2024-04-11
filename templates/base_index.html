@@ -3,130 +3,148 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=960">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playball&display=swap" rel="stylesheet">
     <title>Start page</title>
 </head>
 <body>
-  <header>Chameleon reader</header>
-  <div class="row">
-  <div class="column left">
-      <div class="form-group">
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <label for="file">Выберите файл для загрузки:</label>
-            <input type="file" class="form-control-file" id="file" name="file" accept=".pdf, .fb2, .epub, .txt">
-            <input type="submit" value="Загрузить">
+<header>Chameleon reader</header>
+<div class="row">
+    <div class="column left">
+        <div class="form-group">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <label for="file">Выберите файл для загрузки:</label>
+                <input type="file" class="form-control-file" id="file" name="file" accept=".pdf, .fb2, .epub, .txt">
+                <input type="submit" value="Загрузить">
+            </form>
+        </div>
+        <form action="/new_style" method="post" enctype="multipart/form-data">
+            <p class="base_p"> Размер шрифта: </p>
+            <input name="font-size" type="number" min="12" max="36" placeholder="16" value={{font_size}}>
+            <p class="base_p"> Семейство шрифта: </p>
+            <select name="font-family">
+                <option value="arial" {{arial_state}}> Arial</option>
+                <option value="comic_sans" {{comic_sans_state}}> Comic Sans</option>
+            </select> <br>
+            <p class="base_p"> Цвет шрифта: </p>
+            <select name="text-color">
+                <option value="black" {{black_state}}> black </option>
+                <option value="brown" {{brown_state}}> brown </option>
+            </select> <br>
+            <button type="submit" class="btn btn-primary">Отправить</button>
         </form>
-      </div>
-      <form>
-          <p> Размер шрифта: </p>
-          <input type="number" min="12" max="36" placeholder="16" value="16">
-          <p> Семейство шрифта: </p>
-          <select>
-              <option> Arial </option>
-              <option> Comic Sans</option>
-          </select><br>
-          <button type="submit" class="btn btn-primary">Отправить</button>
-      </form>
-  </div>
-  <div class="column middle">
-      <div class="main_content">
-        {% block content %}{% endblock %}
-      </div>
-  </div>
-  <div class="column right">
-      <div class="bank">
-      <ul>
-          <li> the first </li>
-          <li> the second </li>
-      </ul>
-      </div>
-  </div>
-  </div>
-  <footer>Footer</footer>
+        <form action="/reset_file" method="post" enctype="multipart/form-data">
+            <input type="submit" value="Очистить поле">
+        </form>
+        <form action="/return_file" method="post" enctype="multipart/form-data">
+            <input type="submit" value="Вернуть документ">
+        </form>
+    </div>
+    <div class="column middle">
+        <div class="main_content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <div class="column right">
+        <div class="bank">
+            <p class="day_quote"> {{day_quote}} </p>
+            <p class="author_day_quote"> {{author_quote}} </p>
+        </div>
+    </div>
+</div>
+<footer> 16.04.2024</footer>
 </body>
 </html>
 
 <style>
 
-.column {
-  float: left;
-  height: 500px;
-}
+    .column {
+      float: left;
+      height: 30pc;
+    }
 
-.left, .right {
-  width: 23%;
-  padding: 15px;
-  background-color: #ab755d;
-}
+    .left, .right {
+      width: 23%;
+      padding: 15px;
+      background-color: #ab755d;
+    }
 
-.middle {
-  width: 54%;
-  background-color: #fbc27f;
-  padding: 50px;
-  text-align: justify;
-  overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #543028;
-}
+    .middle {
+      width: 54%;
+      background-color: #fbc27f;
+      padding: 50px;
+      text-align: justify;
+      overflow: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #543028;
+    }
 
-footer, header {
-    background-color: #543028;
-    padding: 15px 10px;
-    margin: 0px;
-    color: rgb(219, 173, 120);
-}
+    footer, header {
+        background-color: #543028;
+        padding: 15px 10px;
+        margin: 0px;
+        color: rgb(219, 173, 120);
+    }
 
-header {
-    font-size: 36px;
-}
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
 
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
+    header {
+        text-align: center;
+        font-size: 46px;
+        font-family: "Playball", cursive;
+        font-weight: 400;
+        font-style: normal;
+    }
 
-header {
-    text-align: center;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    form button, select, input:file, input:number {
+        display: block;
+    }
 
-form button, select, input:file, input:number {
-    display: block;
-}
+    form .form-group input:file {
+        background-color: rgb(219, 173, 120);
+    }
 
-form .form-group input:file {
-    background-color: rgb(219, 173, 120);
-}
+    form input, select {
+        background-color: rgb(219, 173, 120);
+    }
 
-form input, select {
-    background-color: rgb(219, 173, 120);
-}
+    form button, .form-control-file {
+        padding: 3px;
+        margin: 6px 2px;
+        width: 126px;
+        color: rgb(219, 173, 120);
+        background-color: #543028;
+        font-size: 16px;
+    }
 
-form button, .form-control-file {
-    padding: 3px;
-    margin: 6px 2px;
-    width: 126px;
-    color: rgb(219, 173, 120);
-    background-color: #543028;
-    font-size: 16px;
-}
+    .form-control-file {
+        width: 250px;
+    }
 
-.form-control-file {
-    width: 250px;
-}
+    form .base_p {
+        margin: 6px 4px;
+        font-size: 16px;
+    }
 
-form p {
-    margin: 6px 4px;
-}
+    form, .bank {
+        margin: 7px 0px;
+        border: 2px dashed #543028;
+        padding: 10px;
+        font-size: 17px;
+    }
 
-form, .bank {
-    margin: 7px 0px;
-    border: 2px dashed #543028;
-    padding: 10px;
-    font-size: 17px;
-}
+    .bank {
+        background-color: rgb(250, 219, 133);
+    }
+
 
 </style>

@@ -2,10 +2,11 @@ from ebooklib import epub
 from bs4 import BeautifulSoup
 import ebooklib
 
-tag_exeption = ['body', 'head']
+tag_exception = ['body', 'head']
 DEST_FOLDER = "templates"
 DEST_FILE = "index_with_content.html"
 DEFAULT_DEST_FILE = f"{DEST_FOLDER}/{DEST_FILE}"
+
 
 def get_epub_item_doc(filename):
     book = epub.read_epub(filename)
@@ -31,12 +32,14 @@ def get_epub_style(filename):
     resp = "\n".join(items_styles)
     return resp
 
+
 def set_epub_style(filename, dest_file=DEFAULT_DEST_FILE):
     file_content = get_epub_style(filename)
     with open(dest_file, mode="a", encoding="UTF-8") as file:
         file.write('<style>\n')
         file.write(file_content + '\n')
         file.write('</style>\n')
+
 
 def get_epub_style_text(filename):
     file_content = get_epub_style(filename)
@@ -47,6 +50,7 @@ def get_epub_style_text(filename):
     ]
     answer = "\n".join(answer)
     return answer
+
 
 def render_epub_to_html(filename, dest_file=DEFAULT_DEST_FILE):
     file_content = get_epub_item_doc(filename)[0]
