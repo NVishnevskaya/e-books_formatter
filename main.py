@@ -22,12 +22,13 @@ current_settings = {
     "author_of_the_day_quote": "",
     "the_day_quote": "",
     "fonts": {
-        "arial": 'selected',
-        "comic_sans": ''
+        "arial": ['selected', "Arial, Helvetica, sans-serif"],
+        "comic_sans": ['', '"Comic Sans MS", "Comic Sans", cursive'],
+        '-': ['', None]
     },
     "font-colors": {
         "black": 'selected',
-        "brown": ''
+        "brown": '',
     }
 }
 
@@ -59,18 +60,20 @@ def show_main_page():
         return render_template(DESTINATION_FILE_FOR_CONTENT, font_size=f'{current_settings["font-size"]}',
                                day_quote=current_settings['the_day_quote'],
                                author_quote=current_settings["author_of_the_day_quote"],
-                               arial_state=current_settings["fonts"]["arial"],
-                               comic_sans_state=current_settings["fonts"]["comic_sans"],
+                               arial_state=current_settings["fonts"]["arial"][0],
+                               comic_sans_state=current_settings["fonts"]["comic_sans"][0],
+                               no_state=current_settings["fonts"]["-"][0],
                                black_state=current_settings["font-colors"]["black"],
-                               brown_state=current_settings["font-colors"]["brown"],
+                               brown_state=current_settings["font-colors"]["brown"]
                                )
     return render_template('index.html', text="", font_size=f'{current_settings["font-size"]}',
                            day_quote=current_settings['the_day_quote'],
                            author_quote=current_settings["author_of_the_day_quote"],
-                           arial_state=current_settings["fonts"]["arial"],
-                           comic_sans_state=current_settings["fonts"]["comic_sans"],
+                           arial_state=current_settings["fonts"]["arial"][0],
+                           comic_sans_state=current_settings["fonts"]["comic_sans"][0],
+                           no_state=current_settings["fonts"]["-"][0],
                            black_state=current_settings["font-colors"]["black"],
-                           brown_state=current_settings["font-colors"]["brown"],
+                           brown_state=current_settings["font-colors"]["brown"]
                            )
 
 
@@ -83,15 +86,16 @@ def set_new_style():
         # font family
         cur_font_family = request.form.get('font-family')
         for key in current_settings['fonts'].keys():
-            current_settings['fonts'][key] = ''
-        current_settings['fonts'][cur_font_family] = 'selected'
+            current_settings['fonts'][key][0] = ''
+        current_settings['fonts'][cur_font_family][0] = 'selected'
         # font color
         cur_font_color = request.form.get('text-color')
         for key in current_settings['font-colors'].keys():
             current_settings['font-colors'][cur_font_color] = ''
         current_settings['font-colors'][cur_font_color] = 'selected'
         # style render
-        style_render.render_css(new_font_size=cur_font_size)
+        style_render.render_css(new_font_size=cur_font_size, new_font_color=cur_font_color,
+                                new_font_family=current_settings['fonts'][cur_font_family][1])
     return redirect(url_for('show_main_page'))
 
 
@@ -105,6 +109,11 @@ def clear_temp_file():
 def return_temp_file():
     current_settings['is_file_loaded'] = True
     return redirect(url_for('show_main_page'))
+
+
+@app.route('/refer_to_auth', methods=["GET", "POST"])
+def show_auth_page():
+    return render_template('auth_page.html')
 
 
 @app.route('/upload', methods=['GET', 'POST'])

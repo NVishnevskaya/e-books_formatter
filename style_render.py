@@ -34,20 +34,30 @@ def reformat_css_to_dict(text, remove_empty_lines=False):
     return data_dict
 
 
-def insert_tag_to_css(css_dict, enclosure=False, font_size=16):
+def insert_tag_to_css(css_dict, enclosure=False, font_size=16, font_color="black", font_family=None):
     if enclosure:
         pass
     else:
         if 'p' in css_dict.keys():
-            needed_indexes = tuple(
-                filter(lambda x: 'font-size' in css_dict['p'][x], [index for index in range(len(css_dict['p']))]))
+            needed_indexes = list(
+                filter(lambda x: ('font-size' in css_dict['p'][x]) or (css_dict['p'][x].startswith('color:')),
+                       [index for index in range(len(css_dict['p']))]))
+            if font_family is not None:
+                additional_indexes = list(filter(lambda x: 'font-family' in css_dict['p'][x],
+                                                 [index for index in range(len(css_dict['p']))]))
+                needed_indexes += additional_indexes
             for index in needed_indexes:
                 css_dict['p'][index] = ""
-            css_dict['p'] = list(filter(lambda x: x.strip() != "", css_dict['p']))
             css_dict['p'].append(f'font-size: {font_size}px;')
+            css_dict['p'].append(f'color: {font_color};')
+            if font_family is not None:
+                css_dict['p'].append(f'font-family: {font_family};')
         else:
             css_dict['p'] = []
             css_dict['p'].append(f'font-size: {font_size}px;')
+            css_dict['p'].append(f'color: {font_color};')
+            css_dict['p'].append(f'font-family: {font_family};')
+        css_dict['p'] = list(filter(lambda x: x.strip() != "", css_dict['p']))
     return css_dict
 
 
@@ -88,10 +98,11 @@ def insert_to_html_file(content, filename=DEFAULT_FILE_WITH_CONTENT):
         html_file.write(new_content)
 
 
-def render_css(filename=DEFAULT_FILE_WITH_CONTENT, new_font_size=16):
+def render_css(filename=DEFAULT_FILE_WITH_CONTENT, new_font_size=16, new_font_color='black', new_font_family=None):
     css_data = get_style_block(filename)
     formatted_dict = reformat_css_to_dict(css_data, remove_empty_lines=True)
-    formatted_dict = insert_tag_to_css(formatted_dict, font_size=new_font_size)
+    formatted_dict = insert_tag_to_css(formatted_dict, font_size=new_font_size, font_color=new_font_color,
+                                       font_family=new_font_family)
     new_css = reformat_dict_to_css(formatted_dict)
     insert_to_html_file(new_css)
 

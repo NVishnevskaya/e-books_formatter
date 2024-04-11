@@ -26,6 +26,7 @@
             <select name="font-family">
                 <option value="arial" {{arial_state}}> Arial</option>
                 <option value="comic_sans" {{comic_sans_state}}> Comic Sans</option>
+                <option value="-" {{no_state}}> - </option>
             </select> <br>
             <p class="base_p"> Цвет шрифта: </p>
             <select name="text-color">
@@ -48,9 +49,12 @@
     </div>
     <div class="column right">
         <div class="bank">
-            <p class="day_quote"> {{day_quote}} </p>
-            <p class="author_day_quote"> {{author_quote}} </p>
+            <p class="base_q"> {{day_quote}} </p>
+            <p class="base_qa"> {{author_quote}} </p>
         </div>
+        <form class="auth_form" action="/refer_to_auth" method="post" enctype="multipart/form-data">
+            <input type="submit" value="Авторизироваться" class="auth_button">
+        </form>
     </div>
 </div>
 <footer> 16.04.2024</footer>
@@ -133,6 +137,24 @@
     form .base_p {
         margin: 6px 4px;
         font-size: 16px;
+        color: black;
+        font-family: Roboto;
+    }
+
+    .base_q, .base_qa {
+        text-align: justify;
+        margin: 6px 4px;
+        font-family: "Comic Sans MS", "Comic Sans", cursive
+    }
+
+    .base_q {
+        font-size: 17px;
+        color: black;
+    }
+
+    .base_qa {
+        font-size: 16px;
+        color: rgb(43, 39, 39);
     }
 
     form, .bank {
@@ -146,5 +168,20 @@
         background-color: rgb(250, 219, 133);
     }
 
+    .auth_form {
+        background-color: #ab755d;
+        border: None;
+    }
+
+    .auth_button {
+        padding: 6px;
+        color: rgb(250, 219, 133);
+        font-style: bold;
+        background-color: #8B0000;
+        width: 260px;
+        height: 30px;
+        font-size: 16px;
+        margin: 0px;
+    }
 
 </style>
