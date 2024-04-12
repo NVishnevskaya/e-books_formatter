@@ -8,22 +8,32 @@
 </head>
 <body>
 <div class="window">
-    <h1> Авторизация </h1>
-    <form method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+    <h1>Авторизация</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(class="form-control") }}<br>
+            {% for error in form.email.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
         </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(class="form-control", type="password") }}<br>
+            {% for error in form.password.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
         </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox"> Check me out
-            </label>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        {% endfor %}
+        </p>
+        <p>{{ form.is_reg() }} {{ form.is_reg.label }}</p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    </form>
+    <form method="post" enctype="multipart/form-data" action="/refer_to_auth/to_main_page">
+        <button type="submit" name="to_main_page" class="to_main_page"> На главную</button>
     </form>
 </div>
 </body>
@@ -37,19 +47,30 @@
 
     .window {
         display: inline-block;
-        width: 400px;
-        border: 2px dotted black;
-        padding: 20px;
+        width: 700px;
+        border: 2px  double black;
+        box-shadow: 10px 5px 5px blue;
+        padding: 40px;
+        background-color: rgb(239, 231, 231);
+        margin: 100px 200px;
     }
 
     body {
-        background-image: url("img/v17.jpg");
-
+        background: rgb(34,195,70);
+        background: linear-gradient(0deg, rgba(34,195,70,1) 0%, rgba(230,253,45,1) 81%);
         background-size: no-repeat;
-
         background-position: center;
+        background-repeat: no-repeat;
+    }
 
-        background-size: cover;
+    .to_main_page {
+        padding: 6px 10px;
+        background-color: gray;
+
+    }
+
+    .form-control-double {
+        display: {{is_reg}};
     }
 
 </style>

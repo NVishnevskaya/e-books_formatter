@@ -1,19 +1,45 @@
+# flask import
 from flask import Flask, render_template, request, redirect, url_for
+import os
+# database import
+from data import db_session
+from data.users import User
+# renders' import
 import epub_render
 import txt_render
 import style_render
+# raters and generators
 import placeholder_generator as pg
-import os
+from password_rate import is_correct_password
+# flask-wtf import
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired
 
+class LoginForm(FlaskForm):
+    email = StringField('Почта', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    is_reg = BooleanField('Регистрация')
+    submit = SubmitField('Войти')
+
+    def validate_on_submit(self):
+        if '@' not in str(self.email):
+            return False
+        return True
+
+
+db_session.global_init("db/data.db")
 ALLOWED_EXTENSIONS = {'epub', 'fb2', 'pdf', 'txt'}
 app = Flask(__name__, template_folder="templates")
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 UPLOAD_FOLDER = 'uploads'
 DESTINATION_FILE_FOR_CONTENT = 'index_with_content.html'
 DEFAULT_FOLDER = "templates"
 DEFAULT_FILE_WITH_CONTENT = f"{DEFAULT_FOLDER}/{DESTINATION_FILE_FOR_CONTENT}"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 current_settings = {
     "is_file_loaded": False,
@@ -29,6 +55,10 @@ current_settings = {
     "font-colors": {
         "black": 'selected',
         "brown": '',
+    },
+    "auth_info": {
+        'is_reg': 'none',
+
     }
 }
 
@@ -113,7 +143,15 @@ def return_temp_file():
 
 @app.route('/refer_to_auth', methods=["GET", "POST"])
 def show_auth_page():
-    return render_template('auth_page.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        return redirect(url_for('show_main_page'))
+    return render_template('auth_page.html', form=form)
+
+
+@app.route('/refer_to_auth/to_main_page', methods=["GET", "POST"])
+def return_to_main_page_from_auth():
+    return redirect(url_for('show_main_page'))
 
 
 @app.route('/upload', methods=['GET', 'POST'])
