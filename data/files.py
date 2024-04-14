@@ -1,11 +1,11 @@
 import datetime
 import sqlalchemy
 from sqlalchemy import orm
-
+from flask_login import UserMixin
 from .db_session import SqlAlchemyBase
 
 
-class Files(SqlAlchemyBase):
+class Files(SqlAlchemyBase, UserMixin):
     __tablename__ = 'files'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,

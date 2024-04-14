@@ -15,19 +15,19 @@
             {{ form.email.label }}<br>
             {{ form.email(class="form-control") }}<br>
             {% for error in form.email.errors %}
-        <div class="alert alert-danger" role="alert">
-            {{ error }}
-        </div>
-        {% endfor %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
         </p>
         <p>
             {{ form.password.label }}<br>
             {{ form.password(class="form-control", type="password") }}<br>
             {% for error in form.password.errors %}
-        <div class="alert alert-danger" role="alert">
-            {{ error }}
-        </div>
-        {% endfor %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
         </p>
         <p>{{ form.is_reg() }} {{ form.is_reg.label }}</p>
         <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
@@ -67,10 +67,6 @@
         padding: 6px 10px;
         background-color: gray;
 
-    }
-
-    .form-control-double {
-        display: {{is_reg}};
     }
 
 </style>

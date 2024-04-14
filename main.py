@@ -1,40 +1,14 @@
 from imports_file import *
 
-
-# region Settings of login form
-class LoginForm(FlaskForm):
-    email = StringField('Почта', validators=[DataRequired()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
-    is_reg = BooleanField('Регистрация')
-    submit = SubmitField('Войти')
-
-    def validate(self):
-        print(self.email.data)
-        print(self.password.data)
-        print(self.is_reg.data)
-        print(self.submit.data)
-        if '@' not in str(self.email):
-            return False
-        return True
-# endregion
-
-
 # region Flask app configuration
-db_session.global_init("db/data.db")
+DEFAULT_DB = "db/data.db"
+db_session.global_init(DEFAULT_DB)
 ALLOWED_EXTENSIONS = {'epub', 'fb2', 'pdf', 'txt'}
 app = Flask(__name__, template_folder="templates")
+login_manager = LoginManager()
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 # endregion
-
-# region Project directory settings
-UPLOAD_FOLDER = 'uploads'
-DESTINATION_FILE_FOR_CONTENT = 'index_with_content.html'
-DEFAULT_FOLDER = "templates"
-DEFAULT_FILE_WITH_CONTENT = f"{DEFAULT_FOLDER}/{DESTINATION_FILE_FOR_CONTENT}"
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-# endregion
-
 
 # region Site's settings
 current_settings = {
@@ -52,26 +26,80 @@ current_settings = {
         "black": 'selected',
         "brown": '',
     },
-    "auth_info": {
-        'is_reg': 'none',
-
-    }
+    'is_reg': False,
+    'current_email': ''
 }
+
+
 # endregion
 
 
+# region Settings of login form
+class LoginForm(FlaskForm):
+    email = StringField('Почта', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    is_reg = BooleanField('Регистрация')
+    submit = SubmitField('Войти')
+
+    def validate(self):
+        if not self.submit.data:
+            return False
+        if not is_correct_email(self.email.data):
+            return False
+        if not is_correct_password(self.password.data):
+            return False
+        db_sess = db_session.create_session()
+        if self.is_reg.data:
+            users = db_sess.query(User).filter(User.email == self.email.data)
+            return len(list(users)) == 0
+        users = db_sess.query(User).filter(
+            User.email == self.email.data, User.hashed_password == str(hash_md5(self.password.data)))
+        return len(list(users)) == 1
+
+
+# endregion
+
+# region Project directory settings
+UPLOAD_FOLDER = 'uploads'
+DESTINATION_FILE_FOR_CONTENT = 'index_with_content.html'
+DEFAULT_FOLDER = "templates"
+DEFAULT_FILE_WITH_CONTENT = f"{DEFAULT_FOLDER}/{DESTINATION_FILE_FOR_CONTENT}"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+login_manager.init_app(app)
+
+
+# endregion
+
+
+# region LoginManager settings
+@login_manager.user_loader
+def load_user(user_id):
+    db_sess = db_session.create_session()
+    return db_sess.get(User, user_id)
+
+
+# endregion
+
+# region Quote setter
 def set_new_quote():
     resp_quote = pg.get_quote_of_the_day()
     current_settings["author_of_the_day_quote"], current_settings["the_day_quote"] = resp_quote['author'], resp_quote[
         'quote']
 
 
+# endregion
+
+
+# region Files' checker
 def get_file_extension(filename):
     return filename.rsplit('.', 1)[1].lower()
 
 
 def allowed_file(filename):
     return '.' in filename and get_file_extension(filename) in ALLOWED_EXTENSIONS
+
+
+# endregion
 
 
 @app.route('/', methods=["GET", "POST"])
@@ -137,8 +165,28 @@ def return_temp_file():
 def show_auth_page():
     form = LoginForm()
     if form.validate():
-        return redirect(url_for('show_main_page'))
+        if form.is_reg.data:
+            db_sess = db_session.create_session()
+            new_user = User(form.email.data, str(hash_md5(form.password.data)))
+            db_sess.add(new_user)
+            db_sess.commit()
+            current_settings['is_reg'] = True
+        else:
+            current_settings['is_reg'] = False
+        current_settings['current_email'] = form.email.data
+        return redirect(url_for('show_success_auth'))
     return render_template('auth_page.html', form=form)
+
+
+@app.route('/success_auth_page', methods=["GET", "POST"])
+def show_success_auth():
+    if current_settings['is_reg']:
+        return render_template('success_auth.html', greeting_phrase="Добро пожаловать!",
+                               action_type='зарегестрировались', user_email=current_settings['current_email'] )
+    return render_template('success_auth.html', greeting_phrase="С возвращением!", action_type='вошли в аккаунт',
+                           user_email=current_settings['current_email'] )
+
+
 # endregion
 
 
@@ -165,6 +213,10 @@ def handle_file_upload():
                 epub_render.render_epub_to_html(file_path)
             elif ext == "txt":
                 txt_render.render_txt_file(file_path)
+            elif ext == "pdf":
+                pdf_render.render_pdf_file(file_path)
+            elif ext == "fb2":
+                fb2_render.render_fb2_file(file_path)
         return redirect(url_for('show_main_page'))
 
 
