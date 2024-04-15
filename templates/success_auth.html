@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Succesful authorization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="success_card">
+        <h3> {{greeting_phrase}} </h3>
+        <h4> Вы успешно {{action_type}}! </h4>
+        <p class="email_address"> Ваш почтовый адрес: {{user_email}} </p>
+        <p> Следите за ближайшими обновлениями (или перспективами развития сайта): </p>
+        <ul>
+            <li> сброс пароля и активация почты </li>
+            <li> система привязки файлов к пользователю </li>
+            <li> классификация файлов по жанрам / расширениями </li>
+            <li> сохранение стилей оформления файла / истории переводов </li>
+        </ul>
+        <br>
+        <form method="post" enctype="multipart/form-data" action="/refer_to_auth/to_main_page">
+            <button type="submit" name="to_main_page" class="to_main_page"> На главную</button>
+        </form>
+    </div>
+</body>
+</html>
+
+<style>
+
+    .success_card {
+        padding: 50px;
+        margin: 60px;
+        width: 500px;
+        height: 400px;
+        background-color: rgb(255, 179, 254);
+        box-shadow: 17px 12px 7px #6F197C;
+        border: 2px solid black;
+    }
+
+
+    body {
+        /* background: -webkit-linear-gradient(90deg, #d34dd5,#00e4cb,#76f876); */
+        background: linear-gradient(90deg, #d34dd5,#00e4cb,#76f876);
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .to_main_page {
+        padding: 12px 40px;
+        background-color: #8610C1;
+        border: 2px solid black;
+        color: black;
+        font-weight: bold;
+        width: 200px;
+    }
+
+    .email_address {
+        text-decoration: underline;
+    }
+
+    h3 {
+        font-family: "Pacifico", cursive;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 32px;
+        margin: 1px;
+    }
+
+</style>
