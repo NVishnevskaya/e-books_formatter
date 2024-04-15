@@ -70,6 +70,14 @@ login_manager.init_app(app)
 
 # endregion
 
+# region Folder creator function
+def create_folder(folder_name=UPLOAD_FOLDER):
+    try:
+        os.mkdir(folder_name)
+    except FileExistsError:
+        pass
+# endregion
+
 
 # region LoginManager settings
 @login_manager.user_loader
@@ -182,9 +190,9 @@ def show_auth_page():
 def show_success_auth():
     if current_settings['is_reg']:
         return render_template('success_auth.html', greeting_phrase="Добро пожаловать!",
-                               action_type='зарегестрировались', user_email=current_settings['current_email'] )
+                               action_type='зарегестрировались', user_email=current_settings['current_email'])
     return render_template('success_auth.html', greeting_phrase="С возвращением!", action_type='вошли в аккаунт',
-                           user_email=current_settings['current_email'] )
+                           user_email=current_settings['current_email'])
 
 
 # endregion
@@ -221,4 +229,5 @@ def handle_file_upload():
 
 
 if __name__ == '__main__':
+    create_folder()
     app.run()

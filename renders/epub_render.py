@@ -52,7 +52,7 @@ def get_epub_style_text(filename):
 
 
 def render_epub_to_html(filename, dest_file=DEFAULT_DEST_FILE):
-    file_content = get_epub_item_doc(filename)[0]
+    file_content = "\n".join(get_epub_item_doc(filename))
     with open(dest_file, mode="w", encoding="UTF-8") as file:
         file.write('{% extends "base_index.html" %}\n')
         file.write('{% block content %}\n')
