@@ -249,4 +249,4 @@ def handle_file_upload():
 
 if __name__ == '__main__':
     create_folder()
-    app.run(port=8080)
+    app.run()
