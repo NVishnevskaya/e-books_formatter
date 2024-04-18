@@ -1,18 +1,16 @@
-# Use the official Python image as the base image
 FROM python:3.9
 
-RUN pip install --upgrade pip
+# Work directory
+WORKDIR /app
 
-RUN adduser -D myuser
-USER myuser
-WORKDIR /home/myuser
+# Copy requirements and install dependencies
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
-COPY --chown=myuser:myuser requirements.txt requirements.txt
-RUN pip install --user -r requirements.txt
+# Copy other project files
+COPY . .
 
-ENV PATH="/home/myuser/.local/bin:${PATH}"
+# Expose a port to Containers 
+EXPOSE 8080
 
-COPY --chown=myuser:myuser . .
-
-# Define the entry point for the container
 CMD ["flask", "run", "--host=0.0.0.0"]
