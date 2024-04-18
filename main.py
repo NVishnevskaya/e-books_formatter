@@ -249,7 +249,7 @@ def handle_file_upload():
 
 def launch_app():
     create_folder()
-    app.run(port=8080)
+    app.run(host="0.0.0.0", port=8080)
 
 
 launch_app()
