@@ -237,6 +237,7 @@ def handle_file_upload():
             ext = get_file_extension(file_path)
             current_settings['is_file_loaded'] = True
             if ext == "epub":
+                print('Y')
                 epub_render.render_epub_to_html(file_path)
             elif ext == "txt":
                 txt_render.render_txt_file(file_path)
