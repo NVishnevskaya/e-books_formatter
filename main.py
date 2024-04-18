@@ -247,6 +247,9 @@ def handle_file_upload():
         return redirect(url_for('show_main_page'))
 
 
-if __name__ == '__main__':
+def launch_app():
     create_folder()
     app.run(port=8080)
+
+
+launch_app()
