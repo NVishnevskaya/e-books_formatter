@@ -13,4 +13,4 @@ COPY . .
 # Expose a port to Containers 
 EXPOSE 8080
 
-CMD ["flask", "run", "--host=0.0.0.0:8080"]
+CMD ["python", "main.py"]
