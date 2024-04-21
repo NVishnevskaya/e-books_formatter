@@ -8,4 +8,11 @@ Note for explanation: https://docs.google.com/document/d/1_p647XfWUCzc3wAGccfC84
 Техническое задание: https://docs.google.com/document/d/1oX3Fv4KJp_VWtdYqfohDDaRFBCf3Twlv-IQaoM64M70/edit?usp=sharing
 Презентация: https://docs.google.com/presentation/d/1NY1gvW7IbEScVrfLUffVkRodqinqYEF5bkKaszDX0-M/edit?usp=sharing
 Пояснительная записка: https://docs.google.com/document/d/1_p647XfWUCzc3wAGccfC84PxW1ISKgtGzB0e6h7nY1M/edit?usp=sharing
+
+Устройство репозитория:
+- Natalia, Vika - одноименные ветки с кодом участников
+- documentation - ветка для хранения информации о проекте: ссылки на документы (презентацию, т.з., пояснительную записку), описание устройства репозитория
+- test_merge - ветка, где была реализована тестовая сборка
+- release - ветка с которой файлы подключены к серверу
+- stable_version - ветка со стабильной и безопасной версией проекта (для локального запуска)
 ----------------------------------------------------------
